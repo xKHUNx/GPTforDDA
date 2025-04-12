@@ -7,6 +7,7 @@ Author     :Yaxin Fan
 Email      : yxfansuda@stu.suda.edu.cn
 '''
 
+import os
 import re
 import json
 
@@ -64,6 +65,10 @@ class Parser:
     def write_structure(self):
         total_not_meet = 0
         data = self.load_file(self.input_file)
+        
+        # Create directory if it doesn't exist
+        os.makedirs(os.path.dirname(self.outut_file), exist_ok=True)
+        
         with open(self.outut_file, "a+", encoding='utf8') as fw:
             for example in data:
                 output = {}

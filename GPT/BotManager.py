@@ -41,10 +41,8 @@ class BotManager:
             else:
                 result_output_dir = str(self.start) + "_" + str(self.end) + "/"
         self.result_output_dir = result_output_dir
-        if os.path.exists(self.result_output_dir):
-            pass
-        else:
-            os.mkdir(self.result_output_dir)
+        # Replace os.mkdir with os.makedirs and add exist_ok=True
+        os.makedirs(self.result_output_dir, exist_ok=True)
 
     def merge_files(self, output_file_name=None):
         _, _, filenames = [i for i in os.walk(self.result_output_dir)][0]
