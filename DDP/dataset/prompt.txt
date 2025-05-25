@@ -1,4 +1,4 @@
-According to the Segmented Discourse Rhetorical Theory, the rhetorical structure of a dialogue can be represented by a directed acyclic graph, where nodes are utterances and edges are the following 16 relations:
+According to the extended Segmented Discourse Rhetorical Theory, the rhetorical structure of a dialogue can be represented by a directed acyclic graph, where nodes are utterances and edges are the following 17 relations:
 
 {
 'Comment':'',
@@ -16,7 +16,8 @@ According to the Segmented Discourse Rhetorical Theory, the rhetorical structure
 "Correction":"",
 "Parallel":"",
 "Contrast":"",
-"Continuation":""
+"Continuation":"",
+"Interruption": ""
 }
 
 please annotate the rhetorical structure of the following dialogue and represent it in the form of [index1, index2, 'relation'], where index1 and index2 are the index of two utterances, and the 'relation' is one of the above relations to connect the two utterances.

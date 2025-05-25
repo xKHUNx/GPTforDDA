@@ -51,7 +51,9 @@ class Parser:
         "Parallel":13,
         "Contrast":14,
         "Continuation":15,
-        'continuation':15}  
+        "continuation":15,
+        "Interruption":16,
+        "interruption":16}  
         self.ifAdj = ifAdj
 
     def load_file(self, file):

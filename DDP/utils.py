@@ -27,16 +27,15 @@ class DataAnalysis:
 
     def get_eval_matrix(self, eval_matrix, predicted_result):
         for k, v in eval_matrix.items():
-
             if v is None:
                 if isinstance(predicted_result[k], dict):
                     eval_matrix[k] = [predicted_result[k]]
                 else:
-                    eval_matrix[k] = predicted_result[k]
+                    eval_matrix[k] = [predicted_result[k]]  # Wrap in list to make it iterable
             elif isinstance(v, list):
                 eval_matrix[k] += [predicted_result[k]]
             else:
-                eval_matrix[k] = np.append(eval_matrix[k], predicted_result[k])
+                eval_matrix[k] = np.append(eval_matrix[k], [predicted_result[k]])  # Wrap in list before appending
 
 
     def compute_f1_all_file(self):
@@ -60,6 +59,8 @@ class DataAnalysis:
 
     def tsinghua_F1(self,eval_matrix):
         cnt_golden, cnt_pred, cnt_cor_bi, cnt_cor_multi = 0, 0, 0, 0
+        print(eval_matrix['hypothesis'], eval_matrix['reference'],
+                                                eval_matrix['edu_num'])
         for hypothesis, reference, edu_num in zip(eval_matrix['hypothesis'], eval_matrix['reference'],
                                                 eval_matrix['edu_num']):
             cnt = [0] * edu_num
@@ -116,7 +117,7 @@ class DataAnalysis:
                     'Conditional': 5,
                     'Question-answer_pair': 6, 'Alternation': 7, 'Q-ELab': 8, 'Result': 9, 'Background': 10,
                     'Narration': 11,
-                    'Correction': 12, 'Parallel': 13, 'Contrast': 14, 'Continuation': 15}
+                    'Correction': 12, 'Parallel': 13, 'Contrast': 14, 'Continuation': 15, 'Interruption': 16}
 
 
         id2label = {}
