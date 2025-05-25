@@ -26,9 +26,9 @@ if __name__ == '__main__':
         processes_num = 8  # Adjust based on your server capacity
         model = "llama2"  # or any other model available in your vLLM server
         base_url = "http://localhost:8000"  # Default vLLM URL
-        input_file_name = './DDP/dataset/Molweni/Molweni_instructions.jsonl'
-        pool_output_dir = './DDP/ResponseFile/MolweniPool/'
-        output_file_name = './DDP/ResponseFile/MolweniResponse.json'
+        input_file_name = './DDP/dataset/DIAM/DIAM_instructions.jsonl'
+        pool_output_dir = './DDP/ResponseFile/DIAMPool/'
+        output_file_name = './DDP/ResponseFile/DIAMResponse.json'
         
         bot_manager.generate_sequences(
             model=model,
@@ -46,9 +46,9 @@ if __name__ == '__main__':
         processes_num = 4  # Fewer processes for local inference
         model = "llama3.2"  # or any other model available in your Ollama
         base_url = "http://localhost:11434"  # Default Ollama URL
-        input_file_name = './DDP/dataset/Molweni/Molweni_instructions.jsonl'
-        pool_output_dir = './DDP/ResponseFile/MolweniPool/'
-        output_file_name = './DDP/ResponseFile/MolweniResponse.json'
+        input_file_name = './DDP/dataset/DIAM/DIAM_instructions.jsonl'
+        pool_output_dir = './DDP/ResponseFile/DIAMPool/'
+        output_file_name = './DDP/ResponseFile/DIAMResponse.json'
         
         bot_manager.generate_sequences(
             model=model,
@@ -64,12 +64,12 @@ if __name__ == '__main__':
         # using GPT to generate the response 
         bot_manager = BotManager()
         processes_num = 50  # num of threads
-        api_key = 'sk-xxx'
+        api_key = ''
         base_url = 'https://api.openai.com/v1'
         model = 'gpt-3.5-turbo'
-        input_file_name = './DDP/dataset/Molweni/Molweni_instructions.jsonl'
-        pool_output_dir = './DDP/ResponseFile/MolweniPool/'
-        output_file_name = './DDP/ResponseFile/MolweniResponse.json'
+        input_file_name = './DDP/dataset/DIAM/DIAM_instructions.jsonl'
+        pool_output_dir = './DDP/ResponseFile/DIAMPool/'
+        output_file_name = './DDP/ResponseFile/DIAMResponse.json'
         
         bot_manager.generate_sequences(
             api_key=api_key,
@@ -82,7 +82,7 @@ if __name__ == '__main__':
         )
 
     # evaluation
-    structure_output_file = "./DDP/StructureDir/MolweniStructure.json"
+    structure_output_file = "./DDP/StructureDir/DIAMStructure.json"
     parser = Parser(output_file_name, structure_output_file)
     parser.write_structure()
     data_analysis = DataAnalysis(structure_output_file, '')
