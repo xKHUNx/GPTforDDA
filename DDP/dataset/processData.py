@@ -119,9 +119,9 @@ class GenerateInputSamples:
 if __name__ == "__main__":
 
     
-    testDataFile = './STAC/test.json'
+    testDataFile = './DIAM/test.json'
     promptFile = 'prompt.txt'
-    outputFile = 'STAC_instructions.jsonl'
+    outputFile = 'DIAM_instructions.jsonl'
     generatesamples = GenerateInputSamples(testDataFile, 
                                         promptFile,
                                         outputFile)
