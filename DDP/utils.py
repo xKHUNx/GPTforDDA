@@ -94,54 +94,78 @@ class DataAnalysis:
         """
         total_relation_dic = {}
         correct_relation_dic = {}
-        predictlabelset = set()
+        predicted_relation_counts = {}
         predict_list_dic = self.read_result(self.resultfile)
         total_ref_rel_num = 0
+
         for id, item in predict_list_dic.items():
             hypo = item['hypothesis']
             ref = item['reference']
             total_ref_rel_num += len(ref)
-            for _,rel in hypo.items():
-                predictlabelset.add(rel)
+
+            # Count predicted relations
+            for _, rel in hypo.items():
+                if rel in predicted_relation_counts:
+                    predicted_relation_counts[rel] += 1
+                else:
+                    predicted_relation_counts[rel] = 1
+
             for ref_link, ref_rel in ref.items():
                 if ref_rel in total_relation_dic:
-                    total_relation_dic [ref_rel] += 1
+                    total_relation_dic[ref_rel] += 1
                 else:
-                    total_relation_dic [ref_rel] = 1
+                    total_relation_dic[ref_rel] = 1
+
                 if ref_link in hypo and ref_rel == hypo[ref_link]:
                     if ref_rel in correct_relation_dic:
                         correct_relation_dic[ref_rel] += 1
                     else:
                         correct_relation_dic[ref_rel] = 1
+
         label2id = {'Comment': 0, 'Clarification_question': 1, 'Elaboration': 2, 'Acknowledgment': 3, 'Explanation': 4,
                     'Conditional': 5,
                     'Question-answer_pair': 6, 'Alternation': 7, 'Q-ELab': 8, 'Result': 9, 'Background': 10,
                     'Narration': 11,
                     'Correction': 12, 'Parallel': 13, 'Contrast': 14, 'Continuation': 15, 'Interruption': 16}
 
-
         id2label = {}
         for key, value in label2id.items():
             id2label[value] = key
-        new_correct_relation_dic  = {}
-        new_total_relation_dic  = {}
-        for id,value in correct_relation_dic.items():
+
+        new_correct_relation_dic = {}
+        new_total_relation_dic = {}
+        new_predicted_relation_counts = {}
+
+        for id, value in correct_relation_dic.items():
             new_correct_relation_dic[id2label[id]] = value
 
         for id, value in total_relation_dic.items():
             new_total_relation_dic[id2label[id]] = value
+
+        for id, value in predicted_relation_counts.items():
+            new_predicted_relation_counts[id2label[id]] = value
+
         print(new_correct_relation_dic)
         print(new_total_relation_dic)
         print(total_ref_rel_num)
         print('percentage of relation type')
         for key, value in new_total_relation_dic.items():
-            print(key , round(value/total_ref_rel_num,4))
+            print(key, round(value / total_ref_rel_num, 4))
 
-        print('accuracy of different relation type')
-        for key, value in new_correct_relation_dic.items():
-            print(key + ':' + str(round(value/new_total_relation_dic[key],4)))
-    
+        print('\nMetrics for each relation type:')
+        for rel_type in new_total_relation_dic.keys():
+            tp = new_correct_relation_dic.get(rel_type, 0)
+            fn = new_total_relation_dic.get(rel_type, 0) - tp
+            fp = new_predicted_relation_counts.get(rel_type, 0) - tp
 
+            precision = tp / (tp + fp) if (tp + fp) > 0 else 0
+            recall = tp / (tp + fn) if (tp + fn) > 0 else 0
+            f1 = 2 * (precision * recall) / (precision + recall) if (precision + recall) > 0 else 0
+
+            print(f"Relation Type: {rel_type}")
+            print(f"  Precision: {precision:.4f}")
+            print(f"  Recall: {recall:.4f}")
+            print(f"  F1-Score: {f1:.4f}")
 
 
 if __name__ == "__main__":
